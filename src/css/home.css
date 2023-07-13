@@ -1,0 +1,23 @@
+.inputSearchProduct{
+    position: relative;
+}
+
+.list-group-products{
+    position: absolute;
+    top: 99%;
+    width: 100%;
+    z-index: 999;
+}
+
+.KhachHang{
+    position: relative;
+}
+
+
+.list-group-customer{
+    position: absolute;
+    top: 99%;
+    left: 10%;
+    width: 81%;
+    z-index: 999;
+}
