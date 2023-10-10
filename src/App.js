@@ -11,11 +11,11 @@ import Warehouse from "./user/Warehouse/Warehouse";
 import HomePage from "./user/Home/HomePage";
 import AuthWrapper from "./user/utils/AuthWrapper";
 import ExportGoods from "./user/ExportGoods/ExportGoods";
+import Goods from "./user/Goods/Goods";
 
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(true);
 
-  // useEffect(() => {
   //   const token = JSON.parse(
   //     localStorage.getItem(process.env.ACCESS_USER_LOGIN_TOKEN)
   //   );
@@ -27,7 +27,6 @@ function App() {
   //       res.data.message ? setIsSignedIn(true) : setIsSignedIn(false);
   //     });
   //   }
-  // }, []);
 
   return (
     <BrowserRouter>
@@ -40,6 +39,7 @@ function App() {
           <Route path="/" element={<HomePage />}>
             <Route index element={<Home />} />
             <Route path="warehouse" element={<Warehouse />} />
+            <Route path="goods" element={<Goods />} />
             <Route path="exportgoods" element={<ExportGoods />} />
           </Route>
         </Route>

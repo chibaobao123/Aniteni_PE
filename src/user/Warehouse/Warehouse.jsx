@@ -1,13 +1,16 @@
 import React from "react";
-import ImportGoods from "./ImportGoods";
-import Products from "./Products";
+
+import TableSearch from "./TableSearch";
+import TableResault from "./TableResault";
+
+import "../../css/util.css";
 import "../../css/warehouse.css";
 
 export default function Warehouse() {
   return (
     <div>
-      <ImportGoods />
-      <Products />
+      <TableSearch />
+      <TableResault />
     </div>
   );
 }

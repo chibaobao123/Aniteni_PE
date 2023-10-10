@@ -83,6 +83,17 @@ export default function Header() {
                 Hàng trả lại
               </Link>
             </NavDropdown>
+            <NavDropdown title="Hàng hóa" id="basic-nav-dropdown">
+              <Link className="dropdown-item" to="/goods">
+                Sản phẩm
+              </Link>
+              {/* <Link className="dropdown-item" to="#">
+                
+              </Link>
+              <Link className="dropdown-item" to="#">
+
+              </Link> */}
+            </NavDropdown>
           </Nav>
           <Nav>
             <NavDropdown title={userLogIn.TaiKhoan} id="basic-nav-dropdown">

@@ -1,21 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import { search_warehouse_update, warehouse_update } from "../../api/warehouse";
 
 import Table from "react-bootstrap/Table";
 
 import CreateNewModal from "./CreateNewModal";
+import WarehouseUpdate from "./WarehouseUpdate";
+import WarehouseUpdateDetail from "./WarehouseUpdateDetail";
 import PageNumbers from "./PageNumbers";
-import { useDispatch, useSelector } from "react-redux";
-import ExportGoodsResault from "./ExportGoodsResault";
-import { export_goods, searchExportGoods } from "../../api/exportGoods";
 
 export default function TableResault() {
-  const { ExportGoods, condition } = useSelector(
-    (state) => state.exportGoodsReducer
+  const { warehouseUpdate, showWarehouseUpdatDetail, condition } = useSelector(
+    (state) => state.warehouseReducer
   );
 
   const dispatch = useDispatch();
 
   const [pageNumbers, setPageNumbers] = useState([]);
+
+  const handleClose = () => {
+    dispatch({
+      type: "SET_SHOW_WAREHOUSE_UPDATE_DETAIL_FALSE",
+    });
+  };
 
   const countPageNumbers = (filter) => {
     const { length, limit } = filter;
@@ -27,7 +35,6 @@ export default function TableResault() {
 
     setPageNumbers(arr);
   };
-
   useEffect(() => {
     const token = JSON.parse(
       localStorage.getItem(process.env.ACCESS_USER_LOGIN_TOKEN)
@@ -41,22 +48,20 @@ export default function TableResault() {
       new Date(newCondition[1].dates.endDate).setHours(24, 0, 0, 0)
     );
 
-    searchExportGoods(token, newCondition).then((res) => {
-      console.log(res.data);
+    search_warehouse_update(token, newCondition).then((res) => {
       dispatch({
         type: "SEARCH_WAREHOUSE_UPDATE",
-        data: res.data.data,
+        warehouseUpdate: res.data.data,
         length: res.data.length,
         currentPage: res.data.currentPage,
       });
     });
 
     return () => {
-      searchExportGoods(token, newCondition).then((res) => {
-        console.log(res.data);
+      search_warehouse_update(token, newCondition).then((res) => {
         dispatch({
           type: "SEARCH_WAREHOUSE_UPDATE",
-          data: res.data.data,
+          warehouseUpdate: res.data.data,
           length: res.data.length,
           currentPage: res.data.currentPage,
         });
@@ -66,7 +71,7 @@ export default function TableResault() {
 
   useEffect(() => {
     countPageNumbers(condition[0].filter);
-  }, [ExportGoods]);
+  }, [warehouseUpdate]);
 
   return (
     <div className="m-4 border rounded bg-white box-shadow">
@@ -85,20 +90,27 @@ export default function TableResault() {
               <th className="br-top-left">#</th>
               <th>Ngày</th>
               <th>Mã</th>
-              <th>Số lượng</th>
-              <th>Nhân viên</th>
-              <th className="br-top-right">Thao tác</th>
+              <th className="text-center">Số lượng</th>
+              <th className="text-center">Số tiền</th>
+              <th className="text-center">Người tạo</th>
+              <th className="br-top-right text-center">Thao tác</th>
             </tr>
           </thead>
           <tbody>
-            <ExportGoodsResault
-              ExportGoods={ExportGoods}
-              filter={condition[0].filter}
+            <WarehouseUpdate
+              warehouseUpdate={warehouseUpdate}
+              currentPage={condition[0].filter.currentPage}
             />
           </tbody>
         </Table>
+        {/* Modal */}
+        <WarehouseUpdateDetail
+          WarehouseUpdate_id={showWarehouseUpdatDetail.id}
+          show={showWarehouseUpdatDetail.show}
+          handleClose={handleClose}
+        />
+        <PageNumbers pageNumbers={pageNumbers} filter={condition[0].filter} />
       </div>
-      <PageNumbers filter={condition[0].filter} pageNumbers={pageNumbers} />
     </div>
   );
 }

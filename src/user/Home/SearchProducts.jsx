@@ -98,7 +98,7 @@ export default function SearchProducts() {
 
   return (
     <div>
-      <div className="mt-3 px-3 mb-3">
+      <div className="px-3 mb-3">
         <div className="row">
           <div className="col-6">
             <h4 className="my-3">Tìm kiếm sản phẩm</h4>
